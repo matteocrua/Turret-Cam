@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
@@ -9,11 +9,12 @@ def index():
 @app.route('/data/', methods = ['POST', 'GET'])
 def data():
     if request.method == 'GET':
-        return f"The URL /data is accessed directly. Try going to '/form' to submit form"
+        #The URL /data is accessed directly so redirect to root.
+        return redirect("/", code=302)
     if request.method == 'POST':
         form_data = request.form
         print(form_data['control'])
-        return ""
+        return "Success", 201
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=80)
