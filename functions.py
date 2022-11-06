@@ -1,3 +1,4 @@
+#match case statement added to decide which action is required
 def parse_user_input(input_string):
     match input_string:
         case "u":

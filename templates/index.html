@@ -2,6 +2,8 @@
 <html lang="en">
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <!-- reload webpage with no cache -->
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
@@ -11,7 +13,8 @@
         <h1>Turret Cam</h1>
         
         <div id="video_feed"></div>
-
+        
+        <!-- display buttons for the movement controll -->>
         <div id="controls">
             <button class="control_button" onclick="control('u')">up</button>
             <button class="control_button" onclick="control('d')">down</button>
@@ -19,6 +22,7 @@
             <button class="control_button" onclick="control('r')">right</button>
         </div>
         
+        <!-- The $.post() method sends data from the client to the server using a POST request -->
         <script>
             function control(direction) {
                 $.post("/data/",{control: direction});
