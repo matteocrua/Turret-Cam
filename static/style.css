@@ -1,0 +1,30 @@
+body {
+    background: black;
+    color: rgb(39, 194, 60);
+    font: 20pt Arial;
+   }
+
+#video_feed {
+    min-height: 100px;
+    width: 100%;
+    background-color: green;
+}
+
+#controls {
+    min-height: 100px;
+    width: 100%;
+    background-color: blue;
+}
+
+#settings {
+    min-height: 100px;
+    width: 100%;
+    background-color: red;
+}
+
+.control_button{
+    width: 200px;
+    height: 50px;
+    font-size: 20pt;
+    margin: 20px;
+}

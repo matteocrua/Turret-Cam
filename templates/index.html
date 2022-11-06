@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+        <link rel="stylesheet" href="/static/style.css" /> 
+    </head>
+    <body>
+        <h1>Turret Cam</h1>
+        
+        <div id="video_feed"></div>
+
+        <div id="controls">
+            <button class="control_button" onclick="control('u')">up</button>
+            <button class="control_button" onclick="control('d')">down</button>
+            <button class="control_button" onclick="control('l')">left</button>
+            <button class="control_button" onclick="control('r')">right</button>
+        </div>
+        
+        <script>
+            function control(direction) {
+                $.post("/data/",{control: direction});
+            }
+        </script>
+
+        <div id="settings"></div>
+</html>
