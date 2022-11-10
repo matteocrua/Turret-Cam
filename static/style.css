@@ -1,8 +1,19 @@
 body {
     background: black;
     color: rgb(39, 194, 60);
-    font: 20pt Arial;
    }
+
+h1{
+    font: 20pt Arial;
+}
+.layout {
+    width: auto;
+    height: auto;
+    display: grid;
+    grid-template-rows: repeat(2, 140%);
+    grid-template-columns: repeat(2, 2fr);
+    gap: 8px;
+}
 
 #video_feed {
     min-height: 100px;
@@ -20,6 +31,12 @@ body {
     min-height: 100px;
     width: 100%;
     background-color: red;
+}
+
+#graph {
+    min-height: 100px;
+    width: 100%;
+    background-color: orange;
 }
 
 .control_button{
