@@ -3,7 +3,7 @@ on:
      branches:
        - master
 
-name: ⏫ Copy content to REBEL
+name: ⏫ Copy content to BHASVIC
 
 jobs:
   copy-file:
