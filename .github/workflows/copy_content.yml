@@ -1,7 +1,7 @@
 on:
   push:
      branches:
-       - master
+       - main
 
 name: ⏫ Copy content to BHASVIC
 
@@ -13,21 +13,7 @@ jobs:
       uses: actions/checkout@v2
 
     # Copy the 'post' folder
-    - name: Push posts
-      uses: dmnemec/copy_file_to_another_repo_action@main
-      env:
-        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-      with:
-        source_file: '/' # Folder to copy
-        destination_repo: 'BHASVIC-MatteoCrua21/Turret-Cam.git' # Target repo
-        destination_folder: '/' # Folder where to copy it
-        user_email: 'matteo@crua.net'
-        user_name: 'matteocrua'
-        commit_message: "AUTO: Copying posts from matteo's to matteo-bhasvic"
-        git_server: 'github.com'
-
-    # Copy the 'publication' folder
-    - name: Push publications
+    - name: Push all
       uses: dmnemec/copy_file_to_another_repo_action@main
       env:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
