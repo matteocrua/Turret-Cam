@@ -19,7 +19,7 @@ jobs:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
       with:
         source_file: '/' # Folder to copy
-        destination_repo: 'BHASVIC-MatteoCrua21/Turret-Cam.git' # Target repo
+        destination_repo: 'BHASVIC-MatteoCrua21/Turret-Cam' # Target repo
         destination_folder: '/' # Folder where to copy it
         user_email: 'matteo@crua.net'
         user_name: 'matteocrua'
