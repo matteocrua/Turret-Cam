@@ -7,7 +7,7 @@ name: ⏫ Copy content to BHASVIC
 
 jobs:
   copy-file:
-    runs-on: windows-latest
+    runs-on: ubuntu-22.04
     steps:
     - name: Checkout
       uses: actions/checkout@v3
