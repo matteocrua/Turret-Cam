@@ -43,8 +43,11 @@ h1{
     }
 }
 .control_button{
-    width: 200px;
-    height: 50px;
+    height: 80px;
+    width: 80px;
+    border-radius: 12px;
+    border: none;
     font-size: 20pt;
     margin: 20px;
+    cursor: pointer;
 }
