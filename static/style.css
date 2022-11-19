@@ -7,7 +7,9 @@ h1{
     font: 20pt Arial;
 }
 .table {
-    display: table;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     width: 100%;
     border-spacing: 10px;
 }
