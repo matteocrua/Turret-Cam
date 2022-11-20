@@ -14,16 +14,26 @@ h1{
     border-spacing: 10px;
 }
 
+.middle-container{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+}
+
 .video_feed {
     display: table-caption;
 }
 
 .controls {
+    width: max-content;
+    border: 1px solid red;
     display: table-cell;
 }
 
 .graph {
-    display: table-cell;
+    flex-grow: 1;
+    height: max-content;
 }
 
 .video_feed, .controls, .graph{
@@ -39,9 +49,15 @@ h1{
     background-color: red;
 }
 
-@media screen and (max-width: 600px) {
-    .layout, .video_feed, .controls, .graph, .settings {
+@media only screen and (max-width: 340px) {
+    .layout, .video_feed, .graph, .settings {
       display: block;
+    }
+    .middle-container{
+        flex-direction: column;
+    }
+    .controls{
+        width: 100%;
     }
 }
 .control_button{

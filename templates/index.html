@@ -8,6 +8,7 @@
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
         <link rel="stylesheet" href="/static/style.css" /> 
+        <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
     </head>
     <body>
         <h1 class="heading">Turret Cam</h1>
@@ -17,20 +18,22 @@
             <!-- <div class="settings"></div> -->
 
             <!-- display buttons for the movement controll -->
-            <div class="controls">
-                <button class="control_button" onclick="control('u')">up</button>
-                <button class="control_button" onclick="control('d')">down</button>
-                <button class="control_button" onclick="control('l')">left</button>
-                <button class="control_button" onclick="control('r')">right</button>
-            </div>
-            
-            <!-- The $.post() method sends data from the client to the server using a POST request -->
-            <script>
-                function control(direction) {
-                    $.post("/data/",{control: direction});
-                }
-            </script>
+            <div class="middle-container">
+                <div class="controls">
+                    <button class="control_button" onclick="control('u')">up</button>
+                    <button class="control_button" onclick="control('d')">down</button>
+                    <button class="control_button" onclick="control('l')">left</button>
+                    <button class="control_button" onclick="control('r')">right</button>
+                </div>
+                
+                <!-- The $.post() method sends data from the client to the server using a POST request -->
+                <script>
+                    function control(direction) {
+                        $.post("/data/",{control: direction});
+                    }
+                </script>
 
-            <div class="graph">graphs</div>
+                <div class="graph">graphs</div>
+            </div>
         </div>
 </html>
