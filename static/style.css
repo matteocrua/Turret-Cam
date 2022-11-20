@@ -14,6 +14,10 @@ h1{
     border-spacing: 10px;
 }
 
+.video_feed {
+    display: table-caption;
+}
+
 .middle-container{
     display: flex;
     flex-direction: row;
@@ -21,32 +25,52 @@ h1{
     width: 100%;
 }
 
-.video_feed {
-    display: table-caption;
-}
-
 .controls {
     width: max-content;
     border: 1px solid red;
-    display: table-cell;
+    text-align: center;
 }
+
+.square_button, .rectangle_button {
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    margin: 10px;
+}
+
+.square_button{
+    height: 80px;
+    width: 80px;
+    font-size: 26px;
+}
+
+.rectangle_button{
+    width: 105px;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.settings {
+    flex-grow: 1;
+    height: max-content;
+}
+
+.speedm{
+
+}
+
 
 .graph {
     flex-grow: 1;
     height: max-content;
 }
 
-.video_feed, .controls, .graph{
+
+.video_feed, .controls, .graph, .settings{
     height: auto;
     background-color: #4C5C68;
     border-radius: 6px;
-}
-
-.settings {
-    min-height: 100px;
-    float: left;
-    width: 100%;
-    background-color: red;
 }
 
 @media only screen and (max-width: 340px) {
@@ -59,13 +83,4 @@ h1{
     .controls{
         width: 100%;
     }
-}
-.control_button{
-    height: 80px;
-    width: 80px;
-    border-radius: 12px;
-    border: none;
-    font-size: 20pt;
-    margin: 20px;
-    cursor: pointer;
 }
