@@ -11,9 +11,9 @@ def parse_user_input(input_string):
             print("move right")
         case "snap":
             print("taking snapshot")
-        case "rec":
+        case "rec_on":
             print("taking a recording")
-        case range(-10,10):
-            print("hello")
+        case "rec_off":
+            print("stopping the recording")
         case _:
             raise Exception("functions.parse_user_input():unkown input") 
