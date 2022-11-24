@@ -18,6 +18,14 @@ h1{
     display: table-caption;
 }
 
+.live_video{
+    height: auto;
+    width: auto;
+    margin: 40px;
+    background-color: chocolate;
+    align-self: center;
+}
+
 .middle-container{
     display: flex;
     flex-direction: row;
@@ -57,9 +65,8 @@ h1{
 }
 
 .speedm{
-
+    
 }
-
 
 .graph {
     flex-grow: 1;
@@ -73,7 +80,7 @@ h1{
     border-radius: 6px;
 }
 
-@media only screen and (max-width: 340px) {
+@media only screen and (max-width: 680px) {
     .layout, .video_feed, .graph, .settings {
       display: block;
     }
@@ -83,4 +90,10 @@ h1{
     .controls{
         width: 100%;
     }
+}
+
+@media only screen and (min-width: 680px){ /* the graph will hide on desktop devices */
+    .graph{
+        display: none;
+    }    
 }
