@@ -13,7 +13,7 @@ def controls():
     if request.method == 'GET':
         #The URL /data/ is accessed directly so redirect to root.
         return redirect("/", code=302)
-    if request.method == 'POST':
+    if request.method == 'POST': 
         form_data = request.form
         parse_user_input(form_data['control'])
         return "Success", 201

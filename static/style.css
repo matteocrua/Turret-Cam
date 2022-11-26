@@ -1,12 +1,15 @@
 body {
     background: #46494C;
-    color: #1985A1;
+    color: #ffffff;
+    max-width: 1000px;
+    margin: 0 auto 0 auto;
+    font-family: Arial, Helvetica, sans-serif;
    }
 
 h1{
-    font: 20pt Arial;
+    font-size: 20pt;
 }
-.table {
+.main_container {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -15,15 +18,21 @@ h1{
 }
 
 .video_feed {
-    display: table-caption;
+    display: flex;
+    overflow: hidden;
 }
 
 .live_video{
-    height: auto;
-    width: auto;
+    /* width: 100%;
+    padding-bottom: 56.25%; */
+    height: 522px;
+    width: 928px;
     margin: 40px;
+    /* overflow: ; */
+    display: block;
     background-color: chocolate;
     align-self: center;
+    flex-direction: column;
 }
 
 .middle-container{
@@ -33,9 +42,8 @@ h1{
     width: 100%;
 }
 
-.controls {
-    width: max-content;
-    border: 1px solid red;
+.controls, .settings {
+    width: 50%;
     text-align: center;
 }
 
@@ -59,13 +67,13 @@ h1{
     font-size: 20px;
 }
 
-.settings {
+/* .settings {
     flex-grow: 1;
     height: max-content;
-}
+} */
 
-.speedm{
-    
+#speedm{
+     
 }
 
 .graph {
@@ -80,7 +88,7 @@ h1{
     border-radius: 6px;
 }
 
-@media only screen and (max-width: 680px) {
+@media only screen and (max-width: 680px) { /* stack layout for tablets and phones */
     .layout, .video_feed, .graph, .settings {
       display: block;
     }
