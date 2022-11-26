@@ -15,12 +15,12 @@
         <h1 class="heading">Turret Cam</h1>
         <div class="main_container">
             <div class="video_feed"> 
-                <div class="live_video"></div>
+                <div class="live_video bordered"></div>
             </div>
 
             <!-- display buttons for the movement controll -->
             <div class="middle-container">
-                <div class="controls">
+                <div class="controls bordered">
                     <button class="square_button" onclick="control('u')">up</button>
                     <button class="square_button" onclick="control('d')">down</button>
                     <button class="square_button" onclick="control('l')">left</button>
@@ -52,7 +52,7 @@
                     }
                 </script>
 
-                <div class="settings">
+                <div class="settings bordered">
                     <div>
                         <label for="speedm">speed multiplier</label><br>
                         <input id="speedm" type="range" min="0.1" max="2" value="1" step="0.1" oninput="speed(this.nextElementSibling.value = this.value)">
@@ -69,7 +69,7 @@
                     }
                 </script>
 
-                <div class="graph">graphs</div>
+                <div class="graph bordered">graphs</div>
             </div>
         </div>
 </html>

@@ -18,20 +18,20 @@ h1{
     border-spacing: 10px;
 }
 
+.bordered{
+    border: 2px solid chocolate;
+    border-radius: 6px;
+}
+
 .video_feed {
     display: flex;
-    overflow: hidden;
 }
 
 .live_video{
     width: 100%;
-    padding-bottom: 56.25%;
-    /* height: 522px;
-    width: 928px; */
-    /* margin: 40px; */
-    /* overflow: ; */
+    padding-bottom: 56.25%; /*auto aspect ratio to fit all devices*/
     display: block;
-    background-color: chocolate;
+    background-color: #46494C;
     align-self: center;
     flex-direction: column;
 }
@@ -68,15 +68,6 @@ h1{
     font-size: 20px;
 }
 
-/* .settings {
-    flex-grow: 1;
-    height: max-content;
-} */
-
-#speedm{
-     
-}
-
 .graph {
     flex-grow: 1;
     height: max-content;
@@ -86,7 +77,6 @@ h1{
 .video_feed, .controls, .graph, .settings{
     height: auto;
     background-color: #4C5C68;
-    border-radius: 6px;
 }
 
 @media only screen and (max-width: 680px) { /* stack layout for tablets and phones */
@@ -97,7 +87,8 @@ h1{
         flex-direction: column;
     }
     .controls, .settings{
-        width: 100%;
+        width: auto;
+
     }
 }
 
