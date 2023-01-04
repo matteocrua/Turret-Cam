@@ -16,4 +16,4 @@ def parse_user_input(input_string):
         case "rec_off":
             print("stopping the recording")
         case _:
-            raise Exception("functions.parse_user_input():unknown input") 
+            raise Exception("functions.parse_user_input():unknown input")

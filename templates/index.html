@@ -15,7 +15,9 @@
         <h1 class="heading">Turret Cam</h1>
         <div class="main_container">
             <div class="video_feed"> 
-                <div class="live_video bordered"></div>
+                <div class="live_video bordered">
+                    <img src="{{url_for('video')}}" width="100%"/> <!-- the src calls the camera function to load the images -->
+                </div>
             </div>
 
             <!-- display buttons for the movement controll -->
