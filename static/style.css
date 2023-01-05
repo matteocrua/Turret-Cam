@@ -29,7 +29,6 @@ h1{
 
 .live_video{
     width: 100%;
-    padding-bottom: 0%; /*auto aspect ratio to fit all devices*/
     display: block;
     background-color: #46494C;
     align-self: center;
