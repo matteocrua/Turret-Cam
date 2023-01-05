@@ -16,52 +16,62 @@ if not camera.isOpened():
     exit()
 
 #home page for turret cam
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/data/', methods = ['GET'])
 def data():
     if request.method == 'GET':
         #The URL /data/ is accessed directly so redirect to root.
-        return redirect("/", code=302)
+        return redirect("/")
 
 @app.route('/data/controls', methods = ['POST', 'GET'])
 def controls():
-    if request.method == 'GET':
-        #The URL /data/ is accessed directly so redirect to root.
-        return redirect("/", code=302)
     if request.method == 'POST': 
         form_data = request.form
         parse_user_input(form_data['control'])
         return "Success", 201
+    else:
+        # prevent access to /data => redirect to root
+        return redirect("/")
 
 @app.route('/data/speed', methods = ['POST', 'GET'])
 def speed_mult():
-    if request.method == 'GET':
-        #The URL /data/ is accessed directly so redirect to root.
-        return redirect("/", code=302)
     if request.method == 'POST':
         form_data = request.form
         print(form_data['speed'])
         return "Success", 201
+    else:
+        #The URL /data/ is accessed directly so redirect to root.
+        return redirect("/")
 
 @app.route('/video')
 def video():
-    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    # /video endpoint
+    # provides a webcam video feed that can be used in a source for an <img> tag
+
+    # prevent direct access to /video by checking that the referrer is the host 
+    if request.headers.get("Referer") == request.host_url:
+        # generate video feed, mimetype tells the browser what data to expect
+        return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    else:
+        # referer unknown => redirect to root
+        return redirect("/")
 
 def generate_frames():
+    # infinite loop to continuously stream jpeg frames 
     while True:
-        success,frame = camera.read() #success is a boolean parameter, if it is true it can read images from the camera
-        #success = False
+        #success is a boolean parameter, if it is true it can read images from the camera
+        success,frame = camera.read() 
         if not success:
             break
         else:
-            #return False
+            # 
             buffer = cv2.imencode('.jpg',frame)[1]
-            frame = buffer.tobytes()
-        yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n') #use yield instead of return as yield iterates over a sequence such as the frames
+        yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n') #use yield instead of return as yield iterates over a sequence such as the frames
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=80)
