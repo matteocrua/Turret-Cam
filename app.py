@@ -69,7 +69,7 @@ def generate_frames():
         if not success:
             break
         else:
-            # 
+            #
             buffer = cv2.imencode('.jpg',frame)[1]
         yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n') #use yield instead of return as yield iterates over a sequence such as the frames
 
