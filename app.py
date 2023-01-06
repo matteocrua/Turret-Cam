@@ -76,7 +76,7 @@ def generate_frames():
 
             # draws rectangle on body and if detect face within body it draws onto face 
             for(x, y, w, h) in bodies:
-                cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), -1)
+                cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
                 roi_grey = grey[y:y+h, x:x+w]
                 roi_colour = frame[y:y+h, x:x+w]
                 faces = face.detectMultiScale(roi_grey, 1.1, 3)
