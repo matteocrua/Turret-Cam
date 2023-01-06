@@ -69,6 +69,22 @@ def generate_frames():
         if not success:
             break
         else:
+            body = cv2.CascadeClassifier('Haarcascade\haarcascade_fullbody.xml')
+            face = cv2.CascadeClassifier('Haarcascade/haarcascade_frontalface_default.xml')
+            bodies = face.detectMultiScale(frame, 1.1, 7)
+            grey = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+
+            # draws rectangle on body and if detect face within body it draws onto face 
+            for(x, y, w, h) in bodies:
+                cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), -1)
+                roi_grey = grey[y:y+h, x:x+w]
+                roi_colour = frame[y:y+h, x:x+w]
+                faces = face.detectMultiScale(roi_grey, 1.1, 3)
+                for(ex, ey, ew, eh) in faces:
+                    # rectangle function draws on the detected faces: (image, start point, end point, colour, thickness in px)
+                    cv2.rectangle(roi_colour, (ex, ey), (ex+ew, ey+eh), (0, 255, 0), 2)
+
+
             #
             buffer = cv2.imencode('.jpg',frame)[1]
         yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n') #use yield instead of return as yield iterates over a sequence such as the frames
