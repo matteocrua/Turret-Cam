@@ -40,15 +40,15 @@
                                 document.getElementById('rec_button').style.background='red';
                                 document.getElementById('rec_button').textContent='recording'; 
                                 document.getElementById('rec_button').style.color='white'; 
-                                $.post("/data/controls",{control: 'rec_on'});                         
+                                $.post("/controls",{control: 'rec_on'});                         
                             }else{
                                 document.getElementById('rec_button').style.background='#F0F0F0';
                                 document.getElementById('rec_button').textContent='record'; 
                                 document.getElementById('rec_button').style.color='buttontext';  
-                                $.post("/data/controls",{control: 'rec_off'});
+                                $.post("/controls",{control: 'rec_off'});
                             }
                         }else{
-                            $.post("/data/controls",{control: input});
+                            $.post("/controls",{control: input}); 
                         }
                         
                     }
@@ -66,8 +66,10 @@
 
                 <script>
                     function speed(multiplier){
-                        document.getElementById('output_speed').innerText = multiplier; // injects the speed multiplier into the output tag
-                        $.post("/data/speed",{speed: multiplier})
+                        // grabs the text within the output_speed <output>
+                        // and puts it into a variable to be posted
+                        document.getElementById('output_speed').innerText = multiplier; 
+                        $.post("/speed",{speed: multiplier})
                     }
                 </script>
 
