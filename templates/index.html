@@ -9,6 +9,8 @@
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
         <link rel="stylesheet" href="/static/style.css"/> 
+        <link rel="SliderStyle" href="/static/slider.css">
+        
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
     </head>
     <body>
@@ -62,6 +64,12 @@
                     
                     <div><button class="rectangle_button" onclick="control('snap')">snapshot</button></div>
                     <div><button class="rectangle_button" id="rec_button" onclick="control('rec')"><div id="recording">record</div></button></div>
+                    <div>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
                 </div>
 
                 <script>
