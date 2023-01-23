@@ -71,8 +71,10 @@ def generate_frames():
         if not success:
             break
         else:
+            # Haar cascade is an algorithm that can detect objects in images,
+            # regardless of their scale in image and location
             body = cv2.CascadeClassifier('Haarcascade\haarcascade_fullbody.xml')
-            face = cv2.CascadeClassifier('Haarcascade/haarcascade_frontalface_default.xml')
+            face = cv2.CascadeClassifier('Haarcascade\haarcascade_frontalface_default.xml')
             bodies = body.detectMultiScale(frame, 1.1, 7)
             faces = face.detectMultiScale(frame, 1.1, 3)
 
