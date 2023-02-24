@@ -6,13 +6,14 @@ os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0"
 import cv2
 
 app = Flask(__name__)
-
+FRAME_WIDTH = 640
+FRAME_HEIGHT = 360
 # new variable called camera used to capture the video of 
 # the connected camera, 0 is default camera
 camera = cv2.VideoCapture(0) 
 # capping the resolution to reduce lag from high data transmission
-camera.set(cv2.CAP_PROP_FRAME_WIDTH, 640) 
-camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
+camera.set(cv2.CAP_PROP_FRAME_WIDTH, FRAME_WIDTH) 
+camera.set(cv2.CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT)
 
 # checks if camera is available
 if not camera.isOpened():
@@ -76,7 +77,7 @@ def generate_frames():
             body = cv2.CascadeClassifier('Haarcascade\haarcascade_fullbody.xml')
             face = cv2.CascadeClassifier('Haarcascade\haarcascade_frontalface_default.xml')
             bodies = body.detectMultiScale(frame, 1.1, 7)
-            faces = face.detectMultiScale(frame, 1.1, 3)
+            faces = face.detectMultiScale(frame, 1.1, 10)
 
             # draws rectangle on a detected body
             for(x, y, w, h) in bodies:
@@ -87,6 +88,8 @@ def generate_frames():
             for(x, y, w, h) in faces:
                 cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
+            if len(faces) > 0:
+                print( servo_steps_from_face_offset( face_offset( find_face_closest_to_centre( faces ) ) ) )
             buffer = cv2.imencode('.jpg',frame)[1]
         # yield is used instead of return as yield iterates over a sequence
         yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n') 
