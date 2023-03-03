@@ -68,7 +68,7 @@ def generate_frames():
     # infinite loop to continuously stream jpeg frames 
     while True:
         # success is a boolean parameter, if it is true it can read images from the camera
-        success,frame = camera.read() 
+        success,frame = camera.read()
         if not success:
             break
         else:
@@ -76,8 +76,10 @@ def generate_frames():
             # regardless of their scale in image and location
             body = cv2.CascadeClassifier('Haarcascade\haarcascade_fullbody.xml')
             face = cv2.CascadeClassifier('Haarcascade\haarcascade_frontalface_default.xml')
-            bodies = body.detectMultiScale(frame, 1.1, 7)
-            faces = face.detectMultiScale(frame, 1.1, 10)
+            # 1.1 is the scale factor, 7 is the minimum neighbours
+            bodies = body.detectMultiScale(frame, 1.1, 7) 
+            # 1.1 is the scale factor, 10 is the minimum neighbours
+            faces = face.detectMultiScale(frame, 1.1, 10) 
 
             # draws rectangle on a detected body
             for(x, y, w, h) in bodies:
@@ -87,12 +89,17 @@ def generate_frames():
             # draws rectangle on a detected face
             for(x, y, w, h) in faces:
                 cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-
-            if len(faces) > 0:
-                print( servo_steps_from_face_offset( face_offset( find_face_closest_to_centre( faces ) ) ) )
+            
+            # if a face is detected in the frame then print the servo steps to the console 
+            if len(faces) > 0: 
+                print( servo_steps_from_face_offset( face_offset( find_face_closest_to_centre( faces ) ) ) ) 
+            
+            # encodes the frame into a jpeg image
             buffer = cv2.imencode('.jpg',frame)[1]
-        # yield is used instead of return as yield iterates over a sequence
+        # converts the image into a byte array 
+        # yield is used to return a value and then continue the function (sequential)
         yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n') 
 
-if __name__ == '__main__':
+# if the file is run directly then run the app
+if __name__ == '__main__': 
     app.run(debug=False, host='0.0.0.0', port=80)

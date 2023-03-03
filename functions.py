@@ -31,13 +31,9 @@ def face_offset(face):
     return (x_offset, y_offset)
 
 def servo_steps_from_face_offset(offsets):
-    # offsets is a tuple of (x_offset, y_offset)
     # the servo steps is the number of steps the servo motor needs to move
-    # the servo steps is a tuple of (x_steps, y_steps)
-    # the deadband is the range of offsets that will be ignored
-    # the deadband is a tuple of (x_deadband, y_deadband)
-    # the deadband is in steps
-    # the deadband is a constant
+    # the deadband is a set value of offset  
+    # ignored when calculating the number of servo steps away from the centre
     X_DEADBAND = 5
     Y_DEADBAND = 5 
     x_steps = offsets[0] / 10
@@ -69,5 +65,6 @@ def find_face_closest_to_centre(faces):
             min_face = face
     return min_face
     
+
 
 
