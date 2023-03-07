@@ -65,7 +65,7 @@ def video():
         return redirect("/")
 
 def generate_frames():
-    # infinite loop to continuously stream jpeg frames 
+    # infinite loop to continuously stream jpeg frames
     while True:
         # success is a boolean parameter, if it is true it can read images from the camera
         success,frame = camera.read()
