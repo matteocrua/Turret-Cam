@@ -8,12 +8,30 @@ import cv2
 app = Flask(__name__)
 FRAME_WIDTH = 640
 FRAME_HEIGHT = 360
+
+def returnCamera():
+    # checks the first 10 indexes.
+    index = 0
+    while index < 10:
+        cap = cv2.VideoCapture(index)
+        if cap.read()[0]:
+            print(index)
+            return cap
+        index += 1
+    return None
+
 # new variable called camera used to capture the video of 
 # the connected camera, 0 is default camera
-camera = cv2.VideoCapture(0) 
+
+pipeline = "gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-raw,format=NV12,width=1920,height=1080,framerate=30/1 ! videoconvert ! appsink"
+
+camera = cv2.VideoCapture(pipeline, cv2.CAP_GSTREAMER)
+
+# camera = cv2.VideoCapture(cv2.CAP_V4L2) 
+#camera = returnCamera()
 # capping the resolution to reduce lag from high data transmission
-camera.set(cv2.CAP_PROP_FRAME_WIDTH, FRAME_WIDTH) 
-camera.set(cv2.CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT)
+#camera.set(cv2.CAP_PROP_FRAME_WIDTH, FRAME_WIDTH) 
+#camera.set(cv2.CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT)
 
 # checks if camera is available
 if not camera.isOpened():
@@ -102,4 +120,4 @@ def generate_frames():
 
 # if the file is run directly then run the app
 if __name__ == '__main__': 
-    app.run(debug=False, host='0.0.0.0', port=80)
+    app.run(debug=False, host='0.0.0.0', port=8000)
