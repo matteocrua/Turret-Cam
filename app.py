@@ -1,42 +1,15 @@
 from flask import Flask, render_template, request, redirect, Response
+from picamera import PiCamera
+import numpy as np
+import os, cv2, time
 from functions import *
-import os
-# os.environ makes the webcam initialse faster
-os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0" 
-import cv2
+from io import BytesIO
+from PIL import Image
+
+FRAME_WIDTH = 640
+FRAME_HEIGHT = 480
 
 app = Flask(__name__)
-FRAME_WIDTH = 640
-FRAME_HEIGHT = 360
-
-def returnCamera():
-    # checks the first 10 indexes.
-    index = 0
-    while index < 10:
-        cap = cv2.VideoCapture(index)
-        if cap.read()[0]:
-            print(index)
-            return cap
-        index += 1
-    return None
-
-# new variable called camera used to capture the video of 
-# the connected camera, 0 is default camera
-
-pipeline = "gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-raw,format=NV12,width=1920,height=1080,framerate=30/1 ! videoconvert ! appsink"
-
-camera = cv2.VideoCapture(pipeline, cv2.CAP_GSTREAMER)
-
-# camera = cv2.VideoCapture(cv2.CAP_V4L2) 
-#camera = returnCamera()
-# capping the resolution to reduce lag from high data transmission
-#camera.set(cv2.CAP_PROP_FRAME_WIDTH, FRAME_WIDTH) 
-#camera.set(cv2.CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT)
-
-# checks if camera is available
-if not camera.isOpened():
-    print("Cannot open camera")
-    exit()
 
 # home page for turret cam
 @app.route('/')
@@ -84,40 +57,48 @@ def video():
 
 def generate_frames():
     # infinite loop to continuously stream jpeg frames
+    image = np.empty((FRAME_HEIGHT * FRAME_WIDTH * 3,), dtype=np.uint8)
+    
+    # Haar cascade is an algorithm that can detect objects in images,
+    # regardless of their scale in image and location
+    body = cv2.CascadeClassifier('Haarcascade/haarcascade_fullbody.xml')
+    face = cv2.CascadeClassifier('Haarcascade/haarcascade_frontalface_default.xml')
+
     while True:
         # success is a boolean parameter, if it is true it can read images from the camera
-        success,frame = camera.read()
-        if not success:
-            break
-        else:
-            # Haar cascade is an algorithm that can detect objects in images,
-            # regardless of their scale in image and location
-            body = cv2.CascadeClassifier('Haarcascade\haarcascade_fullbody.xml')
-            face = cv2.CascadeClassifier('Haarcascade\haarcascade_frontalface_default.xml')
-            # 1.1 is the scale factor, 7 is the minimum neighbours
-            bodies = body.detectMultiScale(frame, 1.1, 7) 
-            # 1.1 is the scale factor, 10 is the minimum neighbours
-            faces = face.detectMultiScale(frame, 1.1, 10) 
+        camera.capture(image, 'bgr', use_video_port=True)
+        frame = image.reshape((FRAME_HEIGHT, FRAME_WIDTH, 3))
+        frame = cv2.flip(frame, 0)
+        # 1.1 is the scale factor, 7 is the minimum neighbours
+        bodies = body.detectMultiScale(frame, 1.1, 7) 
+        # 1.1 is the scale factor, 10 is the minimum neighbours
+        faces = face.detectMultiScale(frame, 1.1, 10) 
 
-            # draws rectangle on a detected body
-            for(x, y, w, h) in bodies:
-                #cv2.rectangle(image, start point, end point, colour, thickness in px)
-                cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+        # draws rectangle on a detected body
+        for(x, y, w, h) in bodies:
+            #cv2.rectangle(image, start point, end point, colour, thickness in px)
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+    
+        # draws rectangle on a detected face
+        for(x, y, w, h) in faces:
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
         
-            # draws rectangle on a detected face
-            for(x, y, w, h) in faces:
-                cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-            
-            # if a face is detected in the frame then print the servo steps to the console 
-            if len(faces) > 0: 
-                print( servo_steps_from_face_offset( face_offset( find_face_closest_to_centre( faces ) ) ) ) 
-            
-            # encodes the frame into a jpeg image
-            buffer = cv2.imencode('.jpg',frame)[1]
+        # if a face is detected in the frame then print the servo steps to the console 
+        if len(faces) > 0: 
+            print( servo_steps_from_face_offset( face_offset( find_face_closest_to_centre( faces ) ) ) ) 
+        
+        # encodes the frame into a jpeg image
+        buffer = cv2.imencode('.jpg',frame)[1]
         # converts the image into a byte array 
         # yield is used to return a value and then continue the function (sequential)
         yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n') 
 
 # if the file is run directly then run the app
 if __name__ == '__main__': 
+    camera = PiCamera()
+    camera.resolution = (FRAME_WIDTH, FRAME_HEIGHT)
+    camera.framerate = 30
+    camera.iso = 800
+    camera.start_preview()
+
     app.run(debug=False, host='0.0.0.0', port=8000)
