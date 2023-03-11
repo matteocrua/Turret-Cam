@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "c:\\Users\\matteo.crua21\\OneDrive - BHASVIC\\Computer Science\\work\\end of year project\\Turret-Cam\\.venv_bhasvic\\Scripts\\python.exe"
+    "python.pythonPath": "c:\\Users\\matteo.crua21\\OneDrive - BHASVIC\\Computer Science\\work\\end of year project\\Turret-Cam\\.venv_bhasvic\\Scripts\\python.exe",
+    "python.languageServer": "Pylance"
 }
