@@ -1,16 +1,17 @@
 from app import FRAME_WIDTH, FRAME_HEIGHT
+from Turret import *
 
 #match case statement added to decide which action is required
 def parse_user_input(input_string):
     match input_string:
         case "u":
-            print("move up")
+            move_up(6)
         case "d":
-            print("move down")
+            move_down(10)
         case "l":
-            print("move left")
+            move_left(30)
         case "r":
-            print("move right")
+            move_right(30)
         case "snap":
             print("taking snapshot")
         case "rec_on":

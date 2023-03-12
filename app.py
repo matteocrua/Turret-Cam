@@ -5,6 +5,7 @@ import os, cv2, time
 from functions import *
 from io import BytesIO
 from PIL import Image
+from Turret import *
 
 FRAME_WIDTH = 640
 FRAME_HEIGHT = 480

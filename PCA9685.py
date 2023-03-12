@@ -4,7 +4,7 @@
 
 import time
 import math
-import smbus
+import smbus2 as smbus
 
 # ============================================================================
 # Raspi PCA9685 16-Channel PWM Servo Driver
@@ -87,12 +87,12 @@ class PCA9685:
     self.setPWM(channel, 0, int(pulse))
     
   def setRotationAngle(self, channel, Angle):
-    #if((Angle >= 0 and Angle <= 180)):
     temp = Angle * (2000 / 180) + 501
     self.setServoPulse(channel, temp)
     #else:
         #print("Angle out of range")
-    
+     
+
   def start_PCA9685(self):
     self.write(self.__MODE2, 0x04)
     #Just restore the stopped state that should be set for exit_PCA9685
