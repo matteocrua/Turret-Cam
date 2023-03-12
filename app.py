@@ -21,8 +21,8 @@ def controls():
     if request.method == 'POST': 
         form_data = request.form
         functions.parse_user_input(form_data['control'])
-        print(form_data['control'])
-        print(functions.face_tracking)
+        #print(form_data['control'])
+        #print(functions.face_tracking)
         return "Success", 201
     else:
         # prevent access to /data => redirect to root
@@ -32,7 +32,7 @@ def controls():
 def speed_mult():
     if request.method == 'POST':
         form_data = request.form
-        print(form_data['speed'])
+        #print(form_data['speed'])
         return "Success", 201
     else:
         # The URL /data/ is accessed directly so redirect to root.
