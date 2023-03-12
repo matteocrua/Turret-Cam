@@ -28,16 +28,17 @@ def face_offset(face):
     # of the frame to the center of the face
     x_offset = face[0] + (face[2]/2) - (FRAME_WIDTH/2)
     y_offset = face[1] + (face[3]/2) - (FRAME_HEIGHT/2)
+    print(x_offset, y_offset)
     return (x_offset, y_offset)
 
 def servo_steps_from_face_offset(offsets):
     # the servo steps is the number of steps the servo motor needs to move
     # the deadband is a set value of offset  
     # ignored when calculating the number of servo steps away from the centre
-    X_DEADBAND = 5
-    Y_DEADBAND = 5 
-    x_steps = offsets[0] / 10 
-    y_steps = offsets[1] / 10
+    X_DEADBAND = 0
+    Y_DEADBAND = 0 
+    x_steps = offsets[0] / 20
+    y_steps = offsets[1] / 20
 
     # if the offset is less than the deadband then set the offset to 0
     # this prevents the servo from moving when the face is in the deadband
@@ -70,5 +71,12 @@ def find_face_closest_to_centre(faces):
     return (min_face)
     
 
+def track_face(face):
+    # get the face offset
+    offset = face_offset(face)
+    # get the servo steps from the face offset
+    servo_steps = servo_steps_from_face_offset(offset)
+    # move the servo
+    move_servos_relative(servo_steps)
 
 

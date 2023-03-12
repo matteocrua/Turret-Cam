@@ -4,7 +4,6 @@ import numpy as np
 import os, cv2, time
 from functions import *
 from io import BytesIO
-from PIL import Image
 from Turret import *
 
 FRAME_WIDTH = 640
@@ -86,7 +85,8 @@ def generate_frames():
         
         # if a face is detected in the frame then print the servo steps to the console 
         if len(faces) > 0: 
-            print( servo_steps_from_face_offset( face_offset( find_face_closest_to_centre( faces ) ) ) ) 
+            #print( servo_steps_from_face_offset( face_offset( find_face_closest_to_centre( faces ) ) ) ) 
+            track_face( find_face_closest_to_centre( faces ) )
         
         # encodes the frame into a jpeg image
         buffer = cv2.imencode('.jpg',frame)[1]

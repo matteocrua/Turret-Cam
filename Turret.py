@@ -3,27 +3,57 @@ import time
 import RPi.GPIO as GPIO
 from PCA9685 import PCA9685
 import itertools as it
+#from functions import face_offset, servo_steps_from_face_offset, find_face_closest_to_centre
 
-SERVO_ANGLE_RATIO = 2.234567901234568
+SERVO_ANGLE_RATIO = 2.234567901234568 #
 
+SERVOY_CHANNEL = 1
+SERVOX_CHANNEL = 0
+
+servo_angle = [0,0] # array of servo angles
+servo_range = [0,0] # array of servo ranges
+
+# set initial servo positions to centre of range
+servo_angle[SERVOY_CHANNEL] = 40 # in degrees
+servo_angle[SERVOX_CHANNEL] = 90 # in degrees
+
+# set the servo ranges in degrees
+servo_range[SERVOY_CHANNEL] = (0,80)
+servo_range[SERVOX_CHANNEL] = (0,180)
 
 pwm = PCA9685()
 print ("This is an PCA9685 routine")
 pwm.setPWMFreq(50)
-#pwm.setServoPulse(1,500) 
-#pwm.setRotationAngle(0, 0)
-pwm.setRotationAngle(1, 50) # (channel,angle) 1 is up and down: min=0, centre=58, max=80
-pwm.setRotationAngle(0, 90) # (channel,angle) 0 is left to right: min=0, centre=90, max=180
 
+def move_servo(channel, angle):
+    # move the servo to the given absolute angle
+    # the angle is limited to the range of the servo 
+    # the angle is converted to a pulse width and sent to the servo
+    # the angle is stored in the servo_angle array
+    global servo_angle
+    if angle > servo_range[channel][1]:
+        angle = servo_range[channel][1]
+    elif angle < servo_range[channel][0]:
+        angle = servo_range[channel][0]
+    pwm.setRotationAngle(channel, angle)
+    servo_angle[channel] = angle
 
+move_servo(SERVOY_CHANNEL, servo_angle[SERVOY_CHANNEL]) # (channel,angle) 1 is up and down: min=0, centre=40, max=80
+move_servo(SERVOX_CHANNEL, servo_angle[SERVOX_CHANNEL])# (channel,angle) 0 is left to right: min=0, centre=90, max=180
 
+def move_servos_relative(steps):
+    # move the servos by the given number of steps
+    # the steps are converted to an angle and the servo is moved to the new angle
+    global servo_angle
+    angle = servo_angle[SERVOX_CHANNEL] + (steps[SERVOX_CHANNEL] * SERVO_ANGLE_RATIO)
+    move_servo(SERVOX_CHANNEL, angle)
+    angle = servo_angle[SERVOY_CHANNEL] + (steps[SERVOY_CHANNEL] * SERVO_ANGLE_RATIO)
+    move_servo(SERVOY_CHANNEL, angle)
 
-servo1_angle = 50
-servo2_angle = 90
 #move servo 1 up a step over a given set of steps from its starting angle
-def move_up(steps):
-    global servo1_angle
-    initial_pos = servo1_angle
+def move_y(steps):
+    global servo_angle
+    initial_pos = servoY_angle
     target_pos = initial_pos + steps
     for i in range(steps):
         pwm.setRotationAngle(1, initial_pos - 1)
@@ -31,12 +61,13 @@ def move_up(steps):
         time.sleep(0.01)
         print("initial_pos = ", initial_pos)
         i = i + 1
-    servo1_angle = target_pos
-    print("servo1_angle = ", servo1_angle)
+    servoY_angle = target_pos
+    print("servoY_angle = ", servoY_angle)
+
 
 # def move_down(steps):
-#     global servo1_angle
-#     initial_pos = servo1_angle
+#     global servoY_angle
+#     initial_pos = servoY_angle
 #     target_pos = initial_pos + steps
 #     for i in range(steps):
 #         pwm.setRotationAngle(1, initial_pos + 1)
@@ -44,12 +75,12 @@ def move_up(steps):
 #         time.sleep(0.01)
 #         print("initial_pos = ", initial_pos)
 #         i = i + 1
-#     servo1_angle = target_pos
-#     print("servo1_angle = ", servo1_angle)
+#     servoY_angle = target_pos
+#     print("servoY_angle = ", servoY_angle)
 
 # def move_left(steps):
-#     global servo2_angle
-#     initial_pos = servo2_angle
+#     global servoX_angle
+#     initial_pos = servoX_angle
 #     target_pos = initial_pos + steps
 #     for i in range(steps):
 #         pwm.setRotationAngle(1, initial_pos + 1)
@@ -57,12 +88,12 @@ def move_up(steps):
 #         time.sleep(0.01)
 #         print("initial_pos = ", initial_pos)
 #         i = i + 1
-#     servo2_angle = target_pos
-#     print("servo2_angle = ", servo2_angle)
+#     servoX_angle = target_pos
+#     print("servoX_angle = ", servoX_angle)
 
 # def move_right(steps):
-#     global servo2_angle
-#     initial_pos = servo2_angle
+#     global servoX_angle
+#     initial_pos = servoX_angle
 #     target_pos = initial_pos + steps
 #     for i in range(steps):
 #         pwm.setRotationAngle(1, initial_pos - 1)
@@ -70,8 +101,8 @@ def move_up(steps):
 #         time.sleep(0.01)
 #         print("initial_pos = ", initial_pos)
 #         i = i + 1
-#     servo2_angle = target_pos
-#     print("servo2_angle = ", servo2_angle)
+#     servoX_angle = target_pos
+#     print("servoX_angle = ", servoX_angle)
 
 # while True:
 #     servo = input("servo: ")
