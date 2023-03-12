@@ -65,8 +65,8 @@
                     <div><button class="rectangle_button" onclick="control('snap')">snapshot</button></div>
                     <div><button class="rectangle_button" id="rec_button" onclick="control('rec')"><div id="recording">record</div></button></div>
                     <div>
-                        <label class="switch">
-                            <input type="checkbox">
+                        <label class="switch">face tracking
+                            <input id="face_track"  type="checkbox" onchange="face_tracking();" checked = "True">
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -78,6 +78,15 @@
                         // and puts it into a variable to be posted
                         document.getElementById('output_speed').innerText = multiplier; 
                         $.post("/speed",{speed: multiplier})
+                    }
+                    function face_tracking(){
+                        // checks the checkbox and posts the bool to the controls function
+                        // to turn on or off the face tracking
+                        if(document.getElementById('face_track').checked) {
+                            $.post("/controls",{control: 'faceTrack_on'})
+                        } else {
+                            $.post("/controls",{control: 'faceTrack_off'})
+                        }
                     }
                 </script>
 

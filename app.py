@@ -2,12 +2,12 @@ from flask import Flask, render_template, request, redirect, Response
 from picamera import PiCamera
 import numpy as np
 import os, cv2, time
-from functions import *
+import functions
 from io import BytesIO
 from Turret import *
 
 FRAME_WIDTH = 640
-FRAME_HEIGHT = 480
+FRAME_HEIGHT = 368
 
 app = Flask(__name__)
 
@@ -16,17 +16,13 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-# @app.route('/data/', methods = ['GET'])
-# def data():
-#     if request.method == 'GET':
-#         # The URL /data/ is accessed directly so redirect to root.
-#         return redirect("/")
-
 @app.route('/controls', methods = ['POST', 'GET'])
 def controls():
     if request.method == 'POST': 
         form_data = request.form
-        parse_user_input(form_data['control'])
+        functions.parse_user_input(form_data['control'])
+        print(form_data['control'])
+        print(functions.face_tracking)
         return "Success", 201
     else:
         # prevent access to /data => redirect to root
@@ -45,8 +41,7 @@ def speed_mult():
 @app.route('/video')
 def video():
     # /video endpoint
-    # provides a webcam video feed that can be used in a source for an <img> tag
-
+    # provides a webcam video feed that can be used in a source for an <img> ta
     # prevent direct access to /video by checking that the referrer is the host 
     if request.headers.get("Referer") == request.host_url:
         # generate video feed, mimetype tells the browser what data to expect
@@ -61,7 +56,6 @@ def generate_frames():
     
     # Haar cascade is an algorithm that can detect objects in images,
     # regardless of their scale in image and location
-    body = cv2.CascadeClassifier('Haarcascade/haarcascade_fullbody.xml')
     face = cv2.CascadeClassifier('Haarcascade/haarcascade_frontalface_default.xml')
 
     while True:
@@ -69,24 +63,16 @@ def generate_frames():
         camera.capture(image, 'bgr', use_video_port=True)
         frame = image.reshape((FRAME_HEIGHT, FRAME_WIDTH, 3))
         frame = cv2.flip(frame, 0)
-        # 1.1 is the scale factor, 7 is the minimum neighbours
-        bodies = body.detectMultiScale(frame, 1.1, 7) 
         # 1.1 is the scale factor, 10 is the minimum neighbours
-        faces = face.detectMultiScale(frame, 1.1, 10) 
-
-        # draws rectangle on a detected body
-        for(x, y, w, h) in bodies:
-            #cv2.rectangle(image, start point, end point, colour, thickness in px)
-            cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+        faces = face.detectMultiScale(frame, 1.1, 8) 
     
         # draws rectangle on a detected face
         for(x, y, w, h) in faces:
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
         
         # if a face is detected in the frame then print the servo steps to the console 
-        if len(faces) > 0: 
-            #print( servo_steps_from_face_offset( face_offset( find_face_closest_to_centre( faces ) ) ) ) 
-            track_face( find_face_closest_to_centre( faces ) )
+        if ((functions.face_tracking) and (len(faces) > 0)):
+            functions.track_face( functions.find_face_closest_to_centre( faces ) )
         
         # encodes the frame into a jpeg image
         buffer = cv2.imencode('.jpg',frame)[1]
@@ -96,10 +82,11 @@ def generate_frames():
 
 # if the file is run directly then run the app
 if __name__ == '__main__': 
+    # initialise the turret camera
     camera = PiCamera()
     camera.resolution = (FRAME_WIDTH, FRAME_HEIGHT)
     camera.framerate = 30
-    camera.iso = 800
+    camera.iso = 1600
     camera.start_preview()
-
+    
     app.run(debug=False, host='0.0.0.0', port=8000)
