@@ -35,15 +35,15 @@ def face_offset(face):
     # of the frame to the center of the face
     x_offset = face[0] + (face[2]/2) - (FRAME_WIDTH/2)
     y_offset = face[1] + (face[3]/2) - (FRAME_HEIGHT/2)
-    print(x_offset, y_offset)
+    #print(x_offset, y_offset)
     return (x_offset, y_offset)
 
 def servo_steps_from_face_offset(offsets):
     # the servo steps is the number of steps the servo motor needs to move
     # the deadband is a set value of offset  
     # ignored when calculating the number of servo steps away from the centre
-    X_DEADBAND = 0
-    Y_DEADBAND = 0 
+    X_DEADBAND = 0.5
+    Y_DEADBAND = 0.5 
     x_steps = offsets[0] / 20
     y_steps = offsets[1] / 20
 

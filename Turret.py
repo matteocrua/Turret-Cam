@@ -24,7 +24,7 @@ servo_range[SERVOY_CHANNEL] = (0,80)
 servo_range[SERVOX_CHANNEL] = (0,180)
 
 servo_PID[SERVOY_CHANNEL] = PID(0.5, 0, 0) 
-servo_PID[SERVOX_CHANNEL] = PID(0.5, 0, 0)
+servo_PID[SERVOX_CHANNEL] = PID(0.5, 0, 0.5)
 
 pwm = PCA9685()
 print ("This is an PCA9685 routine")

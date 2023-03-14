@@ -64,7 +64,7 @@ def generate_frames():
         frame = image.reshape((FRAME_HEIGHT, FRAME_WIDTH, 3))
         frame = cv2.flip(frame, 0)
         # 1.1 is the scale factor, 10 is the minimum neighbours
-        faces = face.detectMultiScale(frame, 1.1, 8) 
+        faces = face.detectMultiScale(frame, 1.1, 10) 
     
         # draws rectangle on a detected face
         for(x, y, w, h) in faces:
@@ -73,6 +73,7 @@ def generate_frames():
         # if a face is detected in the frame then print the servo steps to the console 
         if ((functions.face_tracking) and (len(faces) > 0)):
             functions.track_face( functions.find_face_closest_to_centre( faces ) )
+            #print(functions.servo_steps_from_face_offset( functions.face_offset( functions.find_face_closest_to_centre( faces ) ) ) )
         
         # encodes the frame into a jpeg image
         buffer = cv2.imencode('.jpg',frame)[1]
@@ -86,7 +87,7 @@ if __name__ == '__main__':
     camera = PiCamera()
     camera.resolution = (FRAME_WIDTH, FRAME_HEIGHT)
     camera.framerate = 30
-    camera.iso = 1600
+    camera.iso = 800
     camera.start_preview()
     
     app.run(debug=False, host='0.0.0.0', port=8000)
