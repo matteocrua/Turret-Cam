@@ -23,8 +23,8 @@ servo_angle[SERVOX_CHANNEL] = 90 # in degrees
 servo_range[SERVOY_CHANNEL] = (0,80)
 servo_range[SERVOX_CHANNEL] = (0,180)
 
-servo_PID[SERVOY_CHANNEL] = PID(0.5, 0, 0) 
-servo_PID[SERVOX_CHANNEL] = PID(0.5, 0, 0.5)
+servo_PID[SERVOY_CHANNEL] = PID(1, 0, 1) 
+servo_PID[SERVOX_CHANNEL] = PID(1, 0, 1)
 
 pwm = PCA9685()
 print ("This is an PCA9685 routine")

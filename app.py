@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, Response
 from picamera import PiCamera
 import numpy as np
-import os, cv2, time
+import cv2
 import functions
 from io import BytesIO
 from Turret import *
@@ -84,10 +84,14 @@ def generate_frames():
 # if the file is run directly then run the app
 if __name__ == '__main__': 
     # initialise the turret camera
-    camera = PiCamera()
-    camera.resolution = (FRAME_WIDTH, FRAME_HEIGHT)
-    camera.framerate = 30
-    camera.iso = 800
-    camera.start_preview()
+    print("Initialising turret camera...")
+    try: camera 
+    except NameError: camera = None
+    if camera is None:
+        camera = PiCamera()
+        camera.resolution = (FRAME_WIDTH, FRAME_HEIGHT)
+        camera.framerate = 30
+        camera.iso = 1600
+        camera.start_preview()
     
     app.run(debug=False, host='0.0.0.0', port=8000)
