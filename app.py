@@ -49,9 +49,14 @@ def video():
     else:
         # referer unknown => redirect to root
         return redirect("/")
-
+    
+# infinite loop to continuously stream jpeg frames
 def generate_frames():
-    # infinite loop to continuously stream jpeg frames
+    # np.empty creates an empty array of the specified size and type 
+    # uint8 is an 8-bit unsigned integer (0 to 255) 
+    # the array is 1D and the size is the number of pixels in the frame
+    # 3 is the number of channels (RGB)
+    # image is a 
     image = np.empty((FRAME_HEIGHT * FRAME_WIDTH * 3,), dtype=np.uint8)
     
     # Haar cascade is an algorithm that can detect objects in images,
@@ -59,9 +64,11 @@ def generate_frames():
     face = cv2.CascadeClassifier('Haarcascade/haarcascade_frontalface_default.xml')
 
     while True:
-        # success is a boolean parameter, if it is true it can read images from the camera
+        # captures a frame from the camera and stores it in the image array
         camera.capture(image, 'bgr', use_video_port=True)
+        # reshape the image into a 3D array
         frame = image.reshape((FRAME_HEIGHT, FRAME_WIDTH, 3))
+        # camera is mounted upsdide down so flip the image
         frame = cv2.flip(frame, 0)
         # 1.1 is the scale factor, 10 is the minimum neighbours
         faces = face.detectMultiScale(frame, 1.1, 10) 
