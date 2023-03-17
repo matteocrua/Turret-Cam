@@ -95,6 +95,7 @@ if __name__ == '__main__':
     try: camera 
     except NameError: camera = None
     if camera is None:
+        # camera is not initialised so initialise it
         camera = PiCamera()
         camera.resolution = (FRAME_WIDTH, FRAME_HEIGHT)
         camera.framerate = 30
