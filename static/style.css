@@ -47,6 +47,8 @@ h1{
     text-align: center;
 }
 
+/* display the controls */
+
 .square_button, .rectangle_button {
     border-radius: 12px;
     text-align: center;
@@ -65,6 +67,35 @@ h1{
     width: 105px;
     padding: 10px;
     font-size: 20px;
+}
+
+.controls{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: 10px;
+    justify-items: center;
+    align-items: center;
+}
+
+#up{
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#left{
+    grid-column: 1;
+    grid-row: 2;
+}
+
+#right{
+    grid-column: 3;
+    grid-row: 2;
+}
+
+#down{
+    grid-column: 2;
+    grid-row: 3;
 }
 
 .graph {
