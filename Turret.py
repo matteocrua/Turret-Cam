@@ -66,18 +66,6 @@ def move_servos_relative(steps):
     angle = servo_angle[SERVOX_CHANNEL] - servo_PID[SERVOX_CHANNEL].update(steps[SERVOX_CHANNEL])
     move_servo(SERVOX_CHANNEL, angle)
 
-# # move the servos by the given number of steps
-# def move_servos_manual(steps):
-#     # the steps are then added to the current angle 
-#     # of the servo and moved to the new angle
-#     global servo_angle
-
-#     angle = servo_angle[SERVOY_CHANNEL] + steps[SERVOY_CHANNEL]
-#     move_servo(SERVOY_CHANNEL, angle)
-    
-#     angle = servo_angle[SERVOX_CHANNEL] + steps[SERVOX_CHANNEL]
-#     move_servo(SERVOX_CHANNEL, angle)
-
 # smoothly move the servos to the given target angle
 def move_servos_manual(steps):
     global servo_angle
