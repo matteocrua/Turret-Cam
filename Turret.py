@@ -1,5 +1,6 @@
 from PCA9685 import PCA9685
 from PID import PID
+import time
 
 SERVOY_CHANNEL = 1
 SERVOX_CHANNEL = 0
@@ -65,15 +66,50 @@ def move_servos_relative(steps):
     angle = servo_angle[SERVOX_CHANNEL] - servo_PID[SERVOX_CHANNEL].update(steps[SERVOX_CHANNEL])
     move_servo(SERVOX_CHANNEL, angle)
 
-# move the servos by the given number of steps
+# # move the servos by the given number of steps
+# def move_servos_manual(steps):
+#     # the steps are then added to the current angle 
+#     # of the servo and moved to the new angle
+#     global servo_angle
+
+#     angle = servo_angle[SERVOY_CHANNEL] + steps[SERVOY_CHANNEL]
+#     move_servo(SERVOY_CHANNEL, angle)
+    
+#     angle = servo_angle[SERVOX_CHANNEL] + steps[SERVOX_CHANNEL]
+#     move_servo(SERVOX_CHANNEL, angle)
+
 def move_servos_manual(steps):
     # the steps are then added to the current angle 
     # of the servo and moved to the new angle
     global servo_angle
 
-    angle = servo_angle[SERVOY_CHANNEL] + steps[SERVOY_CHANNEL]
-    move_servo(SERVOY_CHANNEL, angle)
-    
-    angle = servo_angle[SERVOX_CHANNEL] + steps[SERVOX_CHANNEL]
-    move_servo(SERVOX_CHANNEL, angle)
+    # Calculate the target angle for each servo
+    target_angles = []
+    for channel, step in enumerate(steps):
+        target_angle = servo_angle[channel] + step
+        # Ensure the target angle is within the valid range for the servo
+        target_angle = max(min(target_angle, servo_range[channel][1]), servo_range[channel][0])
+        target_angles.append(target_angle)
 
+    # Move the servos incrementally to the target angles
+    finished = False
+    while not finished:
+        finished = True
+        for channel, target_angle in enumerate(target_angles):
+            # If the current angle is not equal to the target angle,
+            # move the servo one step closer to the target angle
+            if abs(servo_angle[channel] - target_angle) > 0.1:
+                # Calculate the direction of movement
+                direction = 1 if target_angle > servo_angle[channel] else -1
+                # Calculate the new angle for the servo
+                angle = servo_angle[channel] + direction
+                # Move the servo to the new angle
+                move_servo(channel, angle)
+                # Update the servo angle
+                servo_angle[channel] = angle
+                # Mark the movement as unfinished
+                finished = False
+
+        # wait a short time before moving the servos again
+        # to give a smoother movement
+        time.sleep(0.01)
