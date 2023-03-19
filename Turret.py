@@ -1,12 +1,8 @@
-#!/usr/bin/python
-import time
 import RPi.GPIO as GPIO
 from PCA9685 import PCA9685
-import itertools as it
 from PID import PID
-#from functions import face_offset, servo_steps_from_face_offset, find_face_closest_to_centre
 
-SERVO_ANGLE_RATIO = 2.234567901234568 #
+SERVO_ANGLE_RATIO = 2.234567901234568 # 
 
 SERVOY_CHANNEL = 1
 SERVOX_CHANNEL = 0
@@ -23,6 +19,8 @@ servo_angle[SERVOX_CHANNEL] = 90 # in degrees
 servo_range[SERVOY_CHANNEL] = (0,80)
 servo_range[SERVOX_CHANNEL] = (0,180)
 
+# set the PID controller values for each servo
+# kp, ki, kd
 servo_PID[SERVOY_CHANNEL] = PID(1, 0, 1) 
 servo_PID[SERVOX_CHANNEL] = PID(1, 0, 1)
 
