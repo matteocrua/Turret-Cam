@@ -1,12 +1,9 @@
-import RPi.GPIO as GPIO
 from PCA9685 import PCA9685
 from PID import PID
 
-SERVO_ANGLE_RATIO = 2.234567901234568 # 
-
 SERVOY_CHANNEL = 1
 SERVOX_CHANNEL = 0
-
+# 
 servo_angle = [0,0] # array of servo angles
 servo_range = [0,0] # array of servo ranges
 servo_PID = [0,0] # array of PID controllers
@@ -60,8 +57,8 @@ def move_servos_manual(steps):
     # the steps are converted to an angle and the servo is moved to the new angle
     global servo_angle
 
-    angle = servo_angle[SERVOY_CHANNEL] + steps[SERVOY_CHANNEL] * SERVO_ANGLE_RATIO
+    angle = servo_angle[SERVOY_CHANNEL] + steps[SERVOY_CHANNEL]
     move_servo(SERVOY_CHANNEL, angle)
     
-    angle = servo_angle[SERVOX_CHANNEL] + steps[SERVOX_CHANNEL] * SERVO_ANGLE_RATIO
+    angle = servo_angle[SERVOX_CHANNEL] + steps[SERVOX_CHANNEL]
     move_servo(SERVOX_CHANNEL, angle)

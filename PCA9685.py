@@ -87,10 +87,8 @@ class PCA9685:
     self.setPWM(channel, 0, int(pulse))
     
   def setRotationAngle(self, channel, Angle):
-    temp = Angle * (2000 / 180) + 501
+    temp = Angle * (2000 / 180) + 501 # 501 is the minimum pulse width for 0 degrees
     self.setServoPulse(channel, temp)
-    #else:
-        #print("Angle out of range")
      
 
   def start_PCA9685(self):
