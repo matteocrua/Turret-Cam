@@ -66,49 +66,39 @@ def move_servos_relative(steps):
     angle = servo_angle[SERVOX_CHANNEL] - servo_PID[SERVOX_CHANNEL].update(steps[SERVOX_CHANNEL])
     move_servo(SERVOX_CHANNEL, angle)
 
-# # move the servos by the given number of steps
-# def move_servos_manual(steps):
-#     # the steps are then added to the current angle 
-#     # of the servo and moved to the new angle
-#     global servo_angle
-
-#     angle = servo_angle[SERVOY_CHANNEL] + steps[SERVOY_CHANNEL]
-#     move_servo(SERVOY_CHANNEL, angle)
-    
-#     angle = servo_angle[SERVOX_CHANNEL] + steps[SERVOX_CHANNEL]
-#     move_servo(SERVOX_CHANNEL, angle)
-
+# smoothly move the servos to the given target angle
 def move_servos_manual(steps):
-    # the steps are then added to the current angle 
-    # of the servo and moved to the new angle
     global servo_angle
 
-    # Calculate the target angle for each servo
-    target_angles = []
-    for channel, step in enumerate(steps):
+    # get the target angle for the servo
+    target_angles = [] 
+    # enumerate returns the index and the value of the item in the list
+    for channel, step in enumerate(steps): 
+        # calculate the target angle for the servo
         target_angle = servo_angle[channel] + step
-        # Ensure the target angle is within the valid range for the servo
-        target_angle = max(min(target_angle, servo_range[channel][1]), servo_range[channel][0])
+        # add the target angle to the list
         target_angles.append(target_angle)
 
-    # Move the servos incrementally to the target angles
-    finished = False
-    while not finished:
+    # move the servos in increments to the target angle
+    finished = False 
+    while not finished: 
         finished = True
         for channel, target_angle in enumerate(target_angles):
-            # If the current angle is not equal to the target angle,
-            # move the servo one step closer to the target angle
-            if abs(servo_angle[channel] - target_angle) > 0.1:
-                # Calculate the direction of movement
-                direction = 1 if target_angle > servo_angle[channel] else -1
-                # Calculate the new angle for the servo
+            # if the current angle minus the target angle is greater than 0.1, move the servo.
+            # 0.1 acts as a deadband for the servos this is to prevent the servos 
+            # from jittering when they are close to the target angle.
+            if abs(servo_angle[channel] - target_angle) > 0.1: 
+                # the direction is decided by comparing the current angle and the target angle
+                direction = 1 if target_angle > servo_angle[channel] else -1 
+                # the new angle is the current angle plus the direction
                 angle = servo_angle[channel] + direction
-                # Move the servo to the new angle
+                # move the servo to the new angle
                 move_servo(channel, angle)
-                # Update the servo angle
+                # update the current angle of the servo
                 servo_angle[channel] = angle
-                # Mark the movement as unfinished
+                # the movement is not finished
                 finished = False
+    # the movement has only finished when the servo is less than 0.1 
 
         # wait a short time before moving the servos again
         # to give a smoother movement

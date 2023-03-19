@@ -8,24 +8,16 @@ def parse_user_input(input_string):
     global face_tracking
     match input_string:
         case "u":
-            if face_tracking:
-                raise Exception("tracking is on, cannot move")
-            else:
+            if face_tracking is False:
                 move_servos_manual((0, -10))
         case "d":
-            if face_tracking:
-                raise Exception("tracking is on, cannot move")
-            else:
+            if face_tracking is False:
                 move_servos_manual((0, 10))
         case "l":
-            if face_tracking:
-                raise Exception("tracking is on, cannot move")
-            else:
+            if face_tracking is False:
                 move_servos_manual((-18, 0))
         case "r":
-            if face_tracking:
-                raise Exception("tracking is on, cannot move")
-            else:
+            if face_tracking is False:
                 move_servos_manual((18, 0))
         case "snap":
             print("taking snapshot")
