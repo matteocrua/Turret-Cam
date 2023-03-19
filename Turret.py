@@ -63,3 +63,4 @@ def move_servos_manual(steps):
     
     angle = servo_angle[SERVOX_CHANNEL] + steps[SERVOX_CHANNEL]
     move_servo(SERVOX_CHANNEL, angle)
+
