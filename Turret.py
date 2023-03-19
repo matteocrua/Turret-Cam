@@ -76,6 +76,8 @@ def move_servos_manual(steps):
     for channel, step in enumerate(steps): 
         # calculate the target angle for the servo
         target_angle = servo_angle[channel] + step
+        # limit the target angle to the range of the servo
+        target_angle = max(min(target_angle, servo_range[channel][1]), servo_range[channel][0])
         # add the target angle to the list
         target_angles.append(target_angle)
 
@@ -92,6 +94,8 @@ def move_servos_manual(steps):
                 direction = 1 if target_angle > servo_angle[channel] else -1 
                 # the new angle is the current angle plus the direction
                 angle = servo_angle[channel] + direction
+                # limit the angle to the range of the servo
+                angle = max(min(angle, servo_range[channel][1]), servo_range[channel][0])
                 # move the servo to the new angle
                 move_servo(channel, angle)
                 # update the current angle of the servo
