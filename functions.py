@@ -12,9 +12,9 @@ def parse_user_input(input_string):
         case "d":
             move_servos_manual((0, 10))
         case "l":
-            move_servos_manual((-20, 0))
+            move_servos_manual((-18, 0))
         case "r":
-            move_servos_manual((20, 0))
+            move_servos_manual((18, 0))
         case "snap":
             print("taking snapshot")
         case "rec_on":

@@ -1,11 +1,13 @@
+# import functions from other files
 from flask import Flask, render_template, request, redirect, Response
 from picamera import PiCamera
+from Turret import *
+# library imports
 import numpy as np
 import cv2
 import functions
-from io import BytesIO
-from Turret import *
 
+# initialize the camera width and height
 FRAME_WIDTH = 640
 FRAME_HEIGHT = 368
 
