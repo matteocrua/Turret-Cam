@@ -24,9 +24,10 @@ servo_range[SERVOX_CHANNEL] = (0,180)
 servo_PID[SERVOY_CHANNEL] = PID(1, 0, 1) 
 servo_PID[SERVOX_CHANNEL] = PID(1, 0, 1)
 
-pwm = PCA9685()
+# setup the PCA9685 servo controller
+servo = PCA9685() # create a servo object
 print ("This is an PCA9685 routine")
-pwm.setPWMFreq(50)
+servo.setPWMFreq(50) # set the frequency to 50Hz
 
 def move_servo(channel, angle):
     # move the servo to the given absolute angle
@@ -38,7 +39,7 @@ def move_servo(channel, angle):
         angle = servo_range[channel][1]
     elif angle < servo_range[channel][0]:
         angle = servo_range[channel][0]
-    pwm.setRotationAngle(channel, angle)
+    servo.setRotationAngle(channel, angle)
     servo_angle[channel] = angle
 
 move_servo(SERVOY_CHANNEL, servo_angle[SERVOY_CHANNEL]) # (channel,angle) 1 is up and down: min=0, centre=40, max=80
