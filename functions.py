@@ -19,6 +19,10 @@ def parse_user_input(input_string):
         case "r":
             if face_tracking is False:
                 move_servos_manual((18, 0))
+        case "c":
+            if face_tracking is False:
+                move_servo(SERVOY_CHANNEL, 40)
+                move_servo(SERVOX_CHANNEL, 90)
         case "snap":
             print("taking snapshot")
         case "rec_on":
