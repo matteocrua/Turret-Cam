@@ -2,7 +2,8 @@
 # i have made this a class as the PID controller is 
 # used for both servos, therefore needing two instances
 class PID:
-    def __init__(self, P, I, D, Prev_error=0, Integrator=0, Integrator_max=200, Integrator_min=-200):
+    # setup is called when the class is instantiated
+    def setup(self, P, I, D, Prev_error=0, Integrator=0, Integrator_max=200, Integrator_min=-200):
         # PID constants and variables
         self.Kp = P # proportional gain
         self.Ki = I # integral gain
