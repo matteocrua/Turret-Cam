@@ -79,7 +79,8 @@ def generate_frames():
         for(x, y, w, h) in faces:
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
         
-        # if a face is detected in the frame then print the servo steps to the console 
+        # if a face is detected in the frame and the face tracking is on,
+        # then call the track_face function and pass the face closest to the centre 
         if ((functions.face_tracking) and (len(faces) > 0)):
             functions.track_face( functions.find_face_closest_to_centre( faces ) )
             #print(functions.servo_steps_from_face_offset( functions.face_offset( functions.find_face_closest_to_centre( faces ) ) ) )

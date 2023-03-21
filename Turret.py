@@ -5,9 +5,9 @@ import time
 SERVOY_CHANNEL = 1
 SERVOX_CHANNEL = 0
 # 
-servo_angle = [0,0] # array of servo angles
-servo_range = [0,0] # array of servo ranges
-servo_PID = [0,0] # array of PID controllers
+servo_angle = [0,0] # list of servo angles
+servo_range = [0,0] # list of servo ranges
+servo_PID = [0,0] # list of PID controllers
 
 # set initial servo positions to centre of range
 servo_angle[SERVOY_CHANNEL] = 40 # in degrees
@@ -60,11 +60,11 @@ def move_servos_relative(steps):
     # the PID updates the number of steps to move every time this function is called
     # LEAVE OUT as it is being called continously in the main loop it will always update the steps to move
     # LEAVE OUT meaning it move iteratively to the target angle rather than moving to the target angle in one go
-    angle = servo_angle[SERVOY_CHANNEL] - servo_PID[SERVOY_CHANNEL].update(steps[SERVOY_CHANNEL]) 
-    move_servo(SERVOY_CHANNEL, angle)
+    angle_y  = servo_angle[SERVOY_CHANNEL] - servo_PID[SERVOY_CHANNEL].update(steps[SERVOY_CHANNEL])
+    move_servo(SERVOY_CHANNEL, angle_y)
     
-    angle = servo_angle[SERVOX_CHANNEL] - servo_PID[SERVOX_CHANNEL].update(steps[SERVOX_CHANNEL])
-    move_servo(SERVOX_CHANNEL, angle)
+    angle_x = servo_angle[SERVOX_CHANNEL] - servo_PID[SERVOX_CHANNEL].update(steps[SERVOX_CHANNEL])
+    move_servo(SERVOX_CHANNEL, angle_x)
 
 # smoothly move the servos to the given target angle
 def move_servos_manual(steps):

@@ -15,17 +15,19 @@ class PID:
         self.set_point = 0.0 # set point
         self.error = 0.0 # error
 
-    # calculate PID output value for given reference input and feedback
-    def update(self,current_value):
+    # calculate PID output value, 
+    # steps is the number of steps to move the servo
+    def update(self,servo_steps): 
         # calculate error
-        self.error = self.set_point - current_value
+        self.error = self.set_point - servo_steps
 
         # proportional term 
         self.P_value = self.Kp * self.error
 
         # derivative term
         self.D_value = self.Kd * ( self.error - self.Prev_error)
-        self.Prev_error = self.error
+        # store the error for the next iteration
+        self.Prev_error = self.error 
 
         # integral term
         self.Integrator = self.Integrator + self.error

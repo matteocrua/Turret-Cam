@@ -93,5 +93,3 @@ def track_face(face):
     servo_steps = servo_steps_from_face_offset(offset)
     # move the servo
     move_servos_relative(servo_steps)
-
-
