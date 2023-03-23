@@ -34,6 +34,7 @@ def controls():
 def speed_mult():
     if request.method == 'POST':
         form_data = request.form
+        functions.kp_multiplier(float(form_data['speed']))
         #print(form_data['speed'])
         return "Success", 201
     else:

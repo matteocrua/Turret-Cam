@@ -36,6 +36,13 @@ def parse_user_input(input_string):
         case _:
             raise Exception("functions.parse_user_input():unknown input")
 
+def kp_multiplier(multiplier):
+    global Kp_val
+    Kp_val = Kp_val * multiplier
+    print("Kp_val = ", Kp_val)
+    servo_PID[SERVOY_CHANNEL].setKp(Kp_val)
+    servo_PID[SERVOX_CHANNEL].setKp(Kp_val)
+
 def face_offset(face):
     # x,y is the top left corner of the face
     # w,h is the width and height of the face

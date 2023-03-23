@@ -8,6 +8,7 @@ SERVOX_CHANNEL = 0
 servo_angle = [0,0] # list of servo angles
 servo_range = [0,0] # list of servo ranges
 servo_PID = [0,0] # list of PID controllers
+Kp_val = 1
 
 # set initial servo positions to centre of range
 servo_angle[SERVOY_CHANNEL] = 40 # in degrees
@@ -19,8 +20,8 @@ servo_range[SERVOX_CHANNEL] = (0,180)
 
 # set the PID controller values for each servo
 # kp, ki, kd
-servo_PID[SERVOY_CHANNEL] = PID(1, 0, 1) 
-servo_PID[SERVOX_CHANNEL] = PID(1, 0, 1)
+servo_PID[SERVOY_CHANNEL] = PID(Kp_val, 0, 1) 
+servo_PID[SERVOX_CHANNEL] = PID(Kp_val, 0, 1)
 
 # setup the PCA9685 servo controller
 servo = PCA9685() # create a servo object
