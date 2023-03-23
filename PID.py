@@ -3,7 +3,7 @@
 # used for both servos, therefore needing two instances
 class PID:
     # setup is called when the class is instantiated
-    def setup(self, P, I, D, Prev_error=0, Integrator=0, Integrator_max=200, Integrator_min=-200):
+    def __init__(self, P, I, D, Prev_error=0, Integrator=0, Integrator_max=200, Integrator_min=-200):
         # PID constants and variables
         self.Kp = P # proportional gain
         self.Ki = I # integral gain
@@ -45,3 +45,6 @@ class PID:
         PID = self.P_value + self.I_value + self.D_value
 
         return PID
+
+    def setkp(self, P):
+        self.Kp = P

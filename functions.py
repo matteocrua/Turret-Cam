@@ -40,9 +40,8 @@ def parse_user_input(input_string):
 def kp_multiplier(multiplier):
     global Kp_val
     Kp_val = multiplier
-    print("Kp_val = ", Kp_val)
-    servo_PID[SERVOY_CHANNEL].setKp(Kp_val)
-    servo_PID[SERVOX_CHANNEL].setKp(Kp_val)
+    servo_PID[SERVOY_CHANNEL] = PID(P = Kp_val, I=0, D=1) 
+    servo_PID[SERVOX_CHANNEL] = PID(P = Kp_val, I=0, D=1) 
 
 def face_offset(face):
     # x,y is the top left corner of the face
