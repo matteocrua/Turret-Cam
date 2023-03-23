@@ -36,9 +36,10 @@ def parse_user_input(input_string):
         case _:
             raise Exception("functions.parse_user_input():unknown input")
 
+# set the Kp value as the current slider value
 def kp_multiplier(multiplier):
     global Kp_val
-    Kp_val = Kp_val * multiplier
+    Kp_val = multiplier
     print("Kp_val = ", Kp_val)
     servo_PID[SERVOY_CHANNEL].setKp(Kp_val)
     servo_PID[SERVOX_CHANNEL].setKp(Kp_val)
