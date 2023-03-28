@@ -43,20 +43,6 @@ def speed_mult():
         # The URL /data/ is accessed directly so redirect to root.
         return redirect("/")
     
-# @app.route('/snapshot', methods=['POST'])
-# def snapshot():
-#     # /snapshot endpoint
-#     # takes a snapshot and sends it to the user as a download
-#     # create a stream to hold the image data
-#     stream = BytesIO()
-#     # capture the image and save it to the stream
-#     camera.capture(stream, format='jpeg')
-#     # rewind the stream to the beginning so we can read its content
-#     stream.seek(0)
-#     print("done")
-#     # Send the frame as a download to the user
-#     return Response(stream,mimetype='image/jpeg',headers={'Content-Disposition': 'attachment; filename=snap.jpg'})
-
 @app.route('/snapshot', methods=['POST'])
 def snapshot():
     # Capture a frame from the Picamera
@@ -124,7 +110,6 @@ def generate_frames():
     # uint8 is an 8-bit unsigned integer (0 to 255) 
     # the array is 1D and the size is the number of pixels in the frame
     # 3 is the number of channels (RGB)
-    # image is a 
     image = np.empty((FRAME_HEIGHT * FRAME_WIDTH * 3,), dtype=np.uint8)
     
     # Haar cascade is an algorithm that can detect objects in images,

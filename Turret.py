@@ -59,8 +59,6 @@ def move_servos_relative(steps):
     global servo_angle  
     # the angle is calculated by subtracting the PID output from the current angle, 
     # the PID updates the number of steps to move every time this function is called
-    # LEAVE OUT as it is being called continously in the main loop it will always update the steps to move
-    # LEAVE OUT meaning it move iteratively to the target angle rather than moving to the target angle in one go
     angle_y  = servo_angle[SERVOY_CHANNEL] - servo_PID[SERVOY_CHANNEL].update(steps[SERVOY_CHANNEL])
     move_servo(SERVOY_CHANNEL, angle_y)
     
