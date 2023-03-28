@@ -58,6 +58,22 @@
                     }
                 </script>
 
+                <script>
+                    $(document).ready(function() {
+                        $('#rec_button').click(function() {
+                            var duration = 5; // Set the duration here
+                            $.post('/record', {duration: duration}, function(data) {
+                                var blob = new Blob([data], {type: 'video/mjpeg'});
+                                var url = URL.createObjectURL(blob);
+                                var a = document.createElement('a');
+                                a.href = url;
+                                a.download = 'video.mjpeg';
+                                a.click();
+                            });
+                        });
+                    });
+                </script>
+
                 <div class="settings bordered">
                     <div>
                         <label for="speedm">proportional gain: </label><output id="output_speed">1.0</output><br/>
@@ -82,11 +98,14 @@
                         // Create a download link for the snapshot image
                         var url = URL.createObjectURL(data);
                         // Create a link element
-                        var link = $("<a>").attr("href", url).attr("download", "snapshot.jpg").appendTo("body");
+                        var link = $("<a>")
+                            .attr("href", url)
+                            .attr("download", "snap.jpg")
+                            .appendTo("body");
                         // Click the link to start the download
                         link[0].click();
                         // Remove object URL and link element
-                        link.remove();
+                        //link.remove();
                       }, "blob"); // Tell jQuery to expect a blob object in the response
                     });
                 </script>

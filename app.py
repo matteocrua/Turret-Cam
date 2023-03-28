@@ -1,5 +1,5 @@
 # import functions from other files
-from flask import Flask, render_template, request, redirect, Response
+from flask import Flask, render_template, request, redirect, Response, send_file
 from picamera import PiCamera
 from io import BytesIO
 from Turret import *
@@ -7,6 +7,7 @@ from Turret import *
 import numpy as np
 import cv2
 import functions
+from PIL import Image
 
 # initialize the camera width and height
 FRAME_WIDTH = 640
@@ -42,21 +43,68 @@ def speed_mult():
         # The URL /data/ is accessed directly so redirect to root.
         return redirect("/")
     
+# @app.route('/snapshot', methods=['POST'])
+# def snapshot():
+#     # /snapshot endpoint
+#     # takes a snapshot and sends it to the user as a download
+#     # create a stream to hold the image data
+#     stream = BytesIO()
+#     # capture the image and save it to the stream
+#     camera.capture(stream, format='jpeg')
+#     # rewind the stream to the beginning so we can read its content
+#     stream.seek(0)
+#     print("done")
+#     # Send the frame as a download to the user
+#     return Response(stream,mimetype='image/jpeg',headers={'Content-Disposition': 'attachment; filename=snap.jpg'})
+
 @app.route('/snapshot', methods=['POST'])
 def snapshot():
-    # /snapshot endpoint
-    # takes a snapshot and sends it to the user as a download
-    # create a stream to hold the image data
+    # Capture a frame from the Picamera
     stream = BytesIO()
-    # capture the image and save it to the stream
     camera.capture(stream, format='jpeg')
-    # rewind the stream to the beginning so we can read its content
     stream.seek(0)
 
-    # Send the frame as a download to the user
-    return Response(stream,mimetype='image/jpeg',headers={'Content-Disposition': 'attachment; filename=snapshot.jpg'}
+    # Open the frame as a PIL image
+    image = Image.open(stream)
+
+    # Flip the image horizontally and vertically
+    flipped = image.transpose(Image.FLIP_LEFT_RIGHT).transpose(Image.FLIP_TOP_BOTTOM)
+
+    # Save the flipped image to a new stream
+    flipped_stream = BytesIO()
+    flipped.save(flipped_stream, 'jpeg')
+    flipped_stream.seek(0)
+
+    # Send the flipped image as a download to the user
+    return Response(
+        flipped_stream,
+        mimetype='image/jpeg',
+        headers={
+            'Content-Disposition': 'attachment; filename=snap.jpg'
+        }
     )
 
+@app.route('/record', methods=['POST'])
+def record():
+    # Get the video duration from the request
+    duration = int(request.form['duration'])
+
+    # Create a BytesIO object to hold the video data
+    video_stream = BytesIO()
+
+    # Initialize the camera and start recording
+    camera.start_recording(video_stream, format='mjpeg')
+
+    # Wait for the specified duration
+    time.sleep(duration)
+
+    # Stop recording and close the camera
+    camera.stop_recording()
+    #camera.close()
+
+    # Send the video file to the client for download
+    video_stream.seek(0)
+    return send_file(video_stream, download_name='video.mjpeg', as_attachment=True)
 
 @app.route('/video')
 def video():
