@@ -18,7 +18,7 @@ class PID:
     # calculate PID output value, 
     # steps is the number of steps to move the servo
     def update(self,servo_steps): 
-        # calculate error
+        # calculate error, the difference between the set point and the current position
         self.error = self.set_point - servo_steps
 
         # proportional term 
