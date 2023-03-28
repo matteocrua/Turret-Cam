@@ -75,8 +75,8 @@ def find_face_closest_to_centre(faces):
     # the face closest to the centre is the face that will be 
     # used to calculate the servo steps and tracked
     # any other faces will be ignored
-    X_OFFSET = FRAME_WIDTH/2
-    Y_OFFSET = FRAME_HEIGHT/2
+    #X_OFFSET = FRAME_WIDTH/2
+    #Y_OFFSET = FRAME_HEIGHT/2
     # set the minimum offset to the maximum possible offset
     min_offset = (FRAME_WIDTH, FRAME_HEIGHT)
     min_face = None 

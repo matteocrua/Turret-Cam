@@ -64,7 +64,7 @@
                         <input id="speedm" type="range" min="0.1" max="2.0" value="1.0" step="0.1" oninput="speed(this.value);">
                     </div>
                     
-                    <div><button class="rectangle_button" onclick="control('snap')">snapshot</button></div>
+                    <div><button id="snapshot-btn" class="rectangle_button" onclick="control('snap')">snapshot</button></div>
                     <div><button class="rectangle_button" id="rec_button" onclick="control('rec')"><div id="recording">record</div></button></div>
                     <div>
                         <label class="switch">face tracking
@@ -73,6 +73,23 @@
                         </label>
                     </div>
                 </div>
+                
+                <script>
+                    // Add an event listener to the button
+                    $("#snapshot-btn").on("click", function() {
+                      // Send an AJAX request to the server
+                      $.post("/snapshot", function(data) {
+                        // Create a download link for the snapshot image
+                        var url = URL.createObjectURL(data);
+                        // Create a link element
+                        var link = $("<a>").attr("href", url).attr("download", "snapshot.jpg").appendTo("body");
+                        // Click the link to start the download
+                        link[0].click();
+                        // Remove object URL and link element
+                        link.remove();
+                      }, "blob"); // Tell jQuery to expect a blob object in the response
+                    });
+                </script>
 
                 <script>
                     function speed(multiplier){
