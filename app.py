@@ -1,6 +1,7 @@
 # import functions from other files
 from flask import Flask, render_template, request, redirect, Response
 from picamera import PiCamera
+from io import BytesIO
 from Turret import *
 # library imports
 import numpy as np
@@ -40,6 +41,22 @@ def speed_mult():
     else:
         # The URL /data/ is accessed directly so redirect to root.
         return redirect("/")
+    
+@app.route('/snapshot', methods=['POST'])
+def snapshot():
+    # /snapshot endpoint
+    # takes a snapshot and sends it to the user as a download
+    # create a stream to hold the image data
+    stream = BytesIO()
+    # capture the image and save it to the stream
+    camera.capture(stream, format='jpeg')
+    # rewind the stream to the beginning so we can read its content
+    stream.seek(0)
+
+    # Send the frame as a download to the user
+    return Response(stream,mimetype='image/jpeg',headers={'Content-Disposition': 'attachment; filename=snapshot.jpg'}
+    )
+
 
 @app.route('/video')
 def video():
